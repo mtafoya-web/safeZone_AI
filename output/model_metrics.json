@@ -1,0 +1,14 @@
+{
+  "target": "fire_next_day",
+  "model_type": "RandomForestClassifier",
+  "evaluation_status": "skipped_insufficient_history",
+  "notes": [
+    "Only 1 unique dates were available; need at least 7 for meaningful time-based forecasting."
+  ],
+  "row_count": 63,
+  "unique_date_count": 1,
+  "class_distribution": {
+    "0": 41,
+    "1": 22
+  }
+}
