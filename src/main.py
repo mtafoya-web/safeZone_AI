@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import json
 
+import pandas as pd
 from clean import clean_data
 from data_fetch import fetch_firms_data
+from data_fetch_arcgis import fetch_arcgis_historical_data
 from features import add_weather, create_labels, engineer_features
 from model import train_model
 from utils import OUTPUT_DIR, ensure_directories, get_logger, load_environment
@@ -46,9 +48,39 @@ def run_pipeline() -> None:
         load_environment()
         ensure_directories()
 
-        raw_df = fetch_firms_data()
-        _log_stage_rows("fetch", len(raw_df))
-        if _stop_if_empty(raw_df, "fetch"):
+        logger.info("Fetching FIRMS data...")
+        firms_df = fetch_firms_data()
+        _log_stage_rows("firms fetch", len(firms_df))
+
+        logger.info("Fetching ArcGIS historical data...")
+        arcgis_df = fetch_arcgis_historical_data()
+        _log_stage_rows("arcgis fetch", len(arcgis_df))
+
+        if firms_df.empty and arcgis_df.empty:
+            logger.warning(
+                "Pipeline stopped after fetch because both FIRMS and ArcGIS dataframes are empty."
+            )
+            return
+
+        if arcgis_df.empty:
+            logger.warning("ArcGIS historical data is empty. Using FIRMS data only.")
+            raw_df = firms_df.copy()
+        elif firms_df.empty:
+            logger.warning("FIRMS recent data is empty. Using ArcGIS data only.")
+            raw_df = arcgis_df.copy()
+        else:
+            raw_df = pd.concat([arcgis_df, firms_df], ignore_index=True)
+
+        raw_df = raw_df.drop_duplicates(
+            subset=["latitude", "longitude", "acq_date"]
+        ).reset_index(drop=True)
+
+        logger.info(f"Rows after combined fetch: {len(raw_df)}")
+        if "acq_date" in raw_df.columns:
+            logger.info(f"Combined unique dates: {raw_df['acq_date'].nunique()}")
+            logger.info(f"Combined date range: {raw_df['acq_date'].min()} -> {raw_df['acq_date'].max()}")
+
+        if _stop_if_empty(raw_df, "combined fetch"):
             return
 
         cleaned_df = clean_data(raw_df)

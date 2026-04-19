@@ -1,14 +1,42 @@
 {
   "target": "fire_next_day",
   "model_type": "RandomForestClassifier",
-  "evaluation_status": "skipped_insufficient_history",
-  "notes": [
-    "Only 1 unique dates were available; need at least 7 for meaningful time-based forecasting."
-  ],
-  "row_count": 63,
-  "unique_date_count": 1,
+  "evaluation_status": "time_split_evaluated",
+  "notes": [],
+  "row_count": 5518,
+  "unique_date_count": 1365,
   "class_distribution": {
-    "0": 41,
-    "1": 22
+    "0": 5319,
+    "1": 199
+  },
+  "accuracy": 0.902461257976299,
+  "precision": 0.01694915254237288,
+  "recall": 0.02,
+  "f1": 0.01834862385321101,
+  "confusion_matrix": [
+    [
+      989,
+      58
+    ],
+    [
+      49,
+      1
+    ]
+  ],
+  "train_row_count": 4421,
+  "test_row_count": 1097,
+  "train_end_date": "2023-10-09",
+  "test_start_date": "2023-10-11",
+  "feature_importance": {
+    "fire_count": 0.030766670158004692,
+    "avg_brightness": 0.1802048910153483,
+    "max_brightness": 0.17436981036208152,
+    "avg_confidence_score": 0.0,
+    "wind_speed": 0.23894590867697202,
+    "alert_flag": 0.0,
+    "prev_day_fire_count": 0.02083197021805994,
+    "prev_day_avg_brightness": 0.22212443302045934,
+    "rolling_2day_fire_count": 0.04131266667789816,
+    "rolling_3day_fire_count": 0.09144364987117606
   }
 }

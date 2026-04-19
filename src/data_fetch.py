@@ -160,7 +160,7 @@ def fetch_firms_data() -> pd.DataFrame:
 
     selected_df: pd.DataFrame | None = None
 
-    for days in sorted(FIRMS_WINDOWS,reversed=True):
+    for days in sorted(FIRMS_WINDOWS,reverse=True):
         result = results_by_days.get(days)
         if result is None:
             continue
