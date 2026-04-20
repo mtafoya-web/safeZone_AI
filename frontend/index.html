@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SafeZone AI</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-brand">
+        <span class="header-icon">🔥</span>
+        <div class="header-titles">
+          <h1>SafeZone AI</h1>
+          <p class="header-tagline">Protecting coastal communities &amp; ocean ecosystems from wildfire</p>
+        </div>
+      </div>
+      <!-- Location control -->
+      <div class="location-control" id="location-control">
+        <button class="location-trigger" id="location-trigger">
+          <span>📍</span>
+          <span id="location-text">Set Location</span>
+          <span class="location-arrow">▾</span>
+        </button>
+        <div class="location-dropdown hidden" id="location-dropdown">
+          <button class="gps-btn" id="gps-btn">🎯 Use My Current Location</button>
+          <div class="location-divider">or enter manually</div>
+          <div class="location-input-row">
+            <input type="text" id="location-input" placeholder="City, state or zip code..." autocomplete="off" />
+            <button class="go-btn" id="location-submit-btn">Go</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main layout: map left, chat right -->
+    <main class="main-layout">
+
+      <!-- Left: Map Panel -->
+      <section class="map-panel">
+        <div class="panel-header">
+          <span class="panel-title">Wildfire Risk Map</span>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span id="risk-badge" class="risk-badge hidden"></span>
+            <button id="analyze-btn" class="analyze-btn">🔍 Analyze Map</button>
+          </div>
+        </div>
+        <div class="map-container">
+          <iframe
+            id="arcgis-map"
+            src="https://www.arcgis.com/apps/dashboards/ea144221ae994fc88e47d8c12a02b83f"
+            title="Wildfire Risk Map"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+
+      <!-- Right: Chat Panel -->
+      <section class="chat-panel">
+        <div class="panel-header">
+          <span class="panel-title">AI Assistant</span>
+          <span class="ai-badge">AI</span>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+          <!-- Messages injected by JS -->
+        </div>
+        <div class="suggestions">
+          <button class="suggestion-chip">🚗 Best evacuation route?</button>
+          <button class="suggestion-chip">📍 Is my area safe?</button>
+          <button class="suggestion-chip">🌊 Ocean impact?</button>
+          <button class="suggestion-chip">🛡️ Safe zones nearby?</button>
+        </div>
+        <div class="chat-input-bar">
+          <input
+            type="text"
+            id="chat-input"
+            placeholder="Ask about wildfire safety, evacuation routes..."
+            autocomplete="off"
+          />
+          <button id="send-btn" class="send-btn">Send</button>
+        </div>
+      </section>
+
+    </main>
+
+
+<script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
